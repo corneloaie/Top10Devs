@@ -1,13 +1,11 @@
 package com.corneloaie.android.top10devs;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
-public class DevsListActivity extends AppCompatActivity {
+public class DevsListActivity extends FragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_devs_list);
+    public Fragment createFragment() {
+        return DevsListFragment.newInstance();
     }
 }
