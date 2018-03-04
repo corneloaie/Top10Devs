@@ -1,6 +1,6 @@
 package com.corneloaie.android.top10devs;
 
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.corneloaie.android.top10devs.volley.VolleyCallback;
 import com.corneloaie.android.top10devs.volley.VolleyHelper;
 
@@ -103,10 +104,12 @@ public class DevsListFragment extends Fragment {
         }
 
 
-        public void bind(Developer developer) {
+        public void bind(Developer developer, Context context) {
             mDeveloper = developer;
             mNameTextView.setText(mDeveloper.getDisplayName());
-            mProfileImageView.setImageURI(Uri.parse(mDeveloper.getProfileImage()));
+            //    mProfileImageView.setImageURI(Uri.parse(mDeveloper.getProfileImage()));
+            Glide.with(context).load(mDeveloper.getProfileImage())
+                    .into(mProfileImageView);
 
 
         }
@@ -134,7 +137,7 @@ public class DevsListFragment extends Fragment {
         @Override
         public void onBindViewHolder(DeveloperHolder holder, int position) {
             Developer developer = mDevs.get(position);
-            holder.bind(developer);
+            holder.bind(developer, getContext());
 
         }
 
