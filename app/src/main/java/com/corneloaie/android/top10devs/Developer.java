@@ -13,6 +13,13 @@ public class Developer {
     private int bronzeBadge;
     private String profileImage;
 
+    public Developer() {
+    }
+
+    public Developer(int userID) {
+        this.userID = userID;
+    }
+
     public int getUserID() {
         return userID;
     }
@@ -67,5 +74,20 @@ public class Developer {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Developer developer = (Developer) o;
+
+        return getUserID() == developer.getUserID();
+    }
+
+    @Override
+    public int hashCode() {
+        return getUserID();
     }
 }

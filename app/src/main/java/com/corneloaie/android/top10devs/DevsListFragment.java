@@ -21,11 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class DevsListFragment extends Fragment {
+    private Callbacks mCallbacks;
 
     private RecyclerView mRecyclerView;
     private DeveloperAdapter mAdapter;
@@ -37,6 +37,12 @@ public class DevsListFragment extends Fragment {
         DevsListFragment fragment = new DevsListFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
     }
 
     @Nullable
@@ -54,7 +60,7 @@ public class DevsListFragment extends Fragment {
             @Override
             public void onSuccess(JSONObject object) {
                 try {
-                    mDevsList = new ArrayList<>();
+                    mDevsList = DevsList.get(getActivity()).getDevs();
                     JSONArray jsonArray = object.getJSONArray("items");
                     for (int i = 0; i < noOfDevs; i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -90,6 +96,10 @@ public class DevsListFragment extends Fragment {
         VolleyHelper.getInstance().get("2.2/users?order=desc&sort=reputation&site=stackoverflow", callback, getActivity());
     }
 
+    public interface Callbacks {
+        void onDevSelected(Developer developer);
+    }
+
     private class DeveloperHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Developer mDeveloper;
         private TextView mNameTextView;
@@ -116,7 +126,7 @@ public class DevsListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-
+            mCallbacks.onDevSelected(mDeveloper);
         }
     }
 
